@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
+from datetime import datetime
 
 # Create your models here.
 MPA_RATING_CHOICES = [
@@ -15,6 +17,13 @@ PERSON_TYPE_CHOICES = [
     ("writer", "Writer"),
     ("actor", "Actor"),
 ]
+
+
+def validate_release_year(value):
+    if not isinstance(value, int) or value < 1888 or value > datetime.now().year:
+        raise ValidationError(
+            "Invalid release year. Please enter a valid year between 1800 and the current year."
+        )
 
 
 class Genre(models.Model):
@@ -49,7 +58,7 @@ class Movie(models.Model):
     description = models.CharField(max_length=5000)
     poster = models.ImageField()
     bg_picture = models.ImageField()
-    release_year = models.DateField()
+    release_year = models.IntegerField(validators=[validate_release_year])
     mpa_rating = models.CharField(
         choices=MPA_RATING_CHOICES, max_length=5, default=MPA_RATING_CHOICES[0][0]
     )

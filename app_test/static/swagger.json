@@ -1,0 +1,488 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "MoCat REST API",
+    "version": "1.0"
+  },
+  "tags": [
+    {
+      "name": "Genres",
+      "description": "Genres API"
+    },
+    {
+      "name": "Movies",
+      "description": "Movies API"
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://127.0.0.1:8000/",
+      "description": "Local server"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Page": {
+        "type": "object",
+        "properties": {
+          "pages": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "total": {
+            "type": "integer"
+          }
+        }
+      },
+      "Genre": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "id": 1,
+          "title": "Drama"
+        }
+      },
+      "GenresList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Genre"
+        },
+        "example": [
+          {
+            "id": 1,
+            "title": "Drama"
+          }
+        ]
+      },
+      "Person": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "first_name": {
+            "type": "string",
+            "description": "Person first name"
+          },
+          "last_name": {
+            "type": "string",
+            "description": "Person last name"
+          }
+        },
+        "example": [
+          {
+            "id": 1,
+            "first_name": "Frank",
+            "last_name": "Darabont"
+          }
+        ]
+      },
+      "Movie": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string",
+            "description": "Movie title"
+          },
+          "description": {
+            "type": "string",
+            "description": "Movie description"
+          },
+          "release_year": {
+            "type": "integer",
+            "description": "Movie release year"
+          },
+          "mpa_rating": {
+            "type": "string",
+            "enum": [
+              "G",
+              "PG",
+              "PG-13",
+              "R",
+              "NC-17"
+            ]
+          },
+          "imdb_rating": {
+            "type": "number"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Movie duration in minutes"
+          },
+          "poster": {
+            "type": "string",
+            "format": "url"
+          },
+          "bg_picture": {
+            "type": "string",
+            "format": "url"
+          },
+          "genres": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Genre"
+            }
+          },
+          "directors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Person"
+            }
+          },
+          "writers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Person"
+            }
+          },
+          "stars": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Person"
+            }
+          }
+        },
+        "example": {
+          "id": 1,
+          "title": "The Shawshank Redemption",
+          "description": "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+          "release_year": 1994,
+          "mpa_rating": "R",
+          "imdb_rating": 9.3,
+          "duration": 142,
+          "poster": "https://example.com/poster.jpg",
+          "bg_picture": "https://example.com/bg_picture.jpg",
+          "genres": [
+            {
+              "id": 1,
+              "title": "Drama"
+            }
+          ],
+          "directors": [
+            {
+              "id": 1,
+              "first_name": "Frank",
+              "last_name": "Darabont"
+            }
+          ],
+          "writers": [
+            {
+              "id": 1,
+              "first_name": "Stephen",
+              "last_name": "King"
+            },
+            {
+              "id": 2,
+              "first_name": "Frank",
+              "last_name": "Darabont"
+            }
+          ],
+          "stars": [
+            {
+              "id": 3,
+              "first_name": "Tim",
+              "last_name": "Robbins"
+            },
+            {
+              "id": 4,
+              "first_name": "Morgan",
+              "last_name": "Freeman"
+            },
+            {
+              "id": 5,
+              "first_name": "Bob",
+              "last_name": "Gunton"
+            }
+          ]
+        }
+      },
+      "MoviesPage": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Page"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "results": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Movie"
+                }
+              }
+            }
+          }
+        ],
+        "example": {
+          "pages": 1,
+          "total": 1,
+          "results": [
+            {
+              "id": 1,
+              "title": "The Shawshank Redemption",
+              "description": "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+              "release_year": 1994,
+              "mpa_rating": "R",
+              "imdb_rating": 9.3,
+              "duration": 142,
+              "poster": "https://example.com/poster.jpg",
+              "bg_picture": "https://example.com/bg_picture.jpg",
+              "genres": [
+                {
+                  "id": 1,
+                  "title": "Drama"
+                }
+              ],
+              "directors": [
+                {
+                  "id": 1,
+                  "first_name": "Frank",
+                  "last_name": "Darabont"
+                }
+              ],
+              "writers": [
+                {
+                  "id": 2,
+                  "first_name": "Stephen",
+                  "last_name": "King"
+                },
+                {
+                  "id": 3,
+                  "first_name": "Frank",
+                  "last_name": "Darabont"
+                }
+              ],
+              "stars": [
+                {
+                  "id": 4,
+                  "first_name": "Tim",
+                  "last_name": "Robbins"
+                },
+                {
+                  "id": 5,
+                  "first_name": "Morgan",
+                  "last_name": "Freeman"
+                },
+                {
+                  "id": 6,
+                  "first_name": "Bob",
+                  "last_name": "Gunton"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "InternalServerError": {
+        "description": "Internal Server error",
+        "content": {
+          "application/json": {
+            "examples": {
+              "Internal Server error": {
+                "value": {
+                  "error": [
+                    "internal"
+                  ]
+                }
+              }
+            },
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/v1/genres/": {
+      "get": {
+        "tags": [
+          "Genres"
+        ],
+        "summary": "Fetch Genres list",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenresList"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/v1/movies/": {
+      "get": {
+        "tags": [
+          "Movies"
+        ],
+        "summary": "Fetch Movies list",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "genre",
+            "description": "Filter out movies that do not have the specified genre. Only single genre ID can be provided. The first provided genre ID will be used, other will be ignored",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "src",
+            "description": "Filter out movies, that do not match specified search phase. The search phase is applied to a movie title. \n\n Search phrase (min: 2, max: 20). Search works in 'start_with' way",
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 20
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MoviesPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Genre ID param is not valid or not found": {
+                    "value": {
+                      "error": [
+                        "genre__invalid"
+                      ]
+                    }
+                  },
+                  "Search phase is not valid": {
+                    "value": {
+                      "error": [
+                        "src__invalid"
+                      ]
+                    }
+                  },
+                  "Page invalid": {
+                    "value": {
+                      "error": [
+                        "page__invalid"
+                      ]
+                    }
+                  },
+                  "Page out of bounds": {
+                    "value": {
+                      "error": [
+                        "page__out_of_bounds"
+                      ]
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    },
+    "/api/v1/movies/{movie_id}": {
+      "get": {
+        "tags": [
+          "Movies"
+        ],
+        "summary": "Fetch Movies by ID",
+        "parameters": [
+          {
+            "name": "movie_id",
+            "in": "path",
+            "description": "Movie ID",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Movie"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Movie with provided ID is not found": {
+                    "value": {
+                      "error": [
+                        "movie__not_found"
+                      ]
+                    }
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/InternalServerError"
+          }
+        }
+      }
+    }
+  }
+}
