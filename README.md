@@ -16,6 +16,9 @@
       ```python
       docker-compose exec web python manage.py migrate
       ```
+Адмін панель - https://127.0.0.1:8000/admin
+
+Swagger - https://127.0.0.1:8000/swagger
 
 # Сертифікати
 
